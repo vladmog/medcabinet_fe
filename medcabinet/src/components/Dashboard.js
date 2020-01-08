@@ -167,13 +167,7 @@ class Dashboard extends Component {
     }
 }
 
-                {/* {this.props.recommendations.map((recommendation) => {
-                    return(
-                       <RecCard key = {Math.random()} recommendation = {recommendation} />
-                    )
-                })}
-                <Reviewed /> */}
-
+  
 
 function mapStateToProps(state){
     return {

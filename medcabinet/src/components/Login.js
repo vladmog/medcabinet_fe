@@ -1,6 +1,9 @@
 import React from 'react';
 import {connect} from 'react-redux';
 import {login, register} from '../actions/actions';
+import styled from "styled-components";
+
+const S = {}
 
 class Login extends React.Component {
     state = {
