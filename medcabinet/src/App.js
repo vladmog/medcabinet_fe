@@ -15,7 +15,8 @@ function App() {
       {/* <Route path = "/reflectionlog" component = {ReflectionLog}/> */}
       <Route path = "/login" component = {Login}/>
       <Route exact path = "/" component = {Landing} />
-      {/* <PrivateRoute exact path = "/" component = {Dashboard} /> */}
+      {/* <Route exact path = "/" component = {L} /> */}
+      <PrivateRoute exact path = "/dashboard" component = {Dashboard} />
     </div>
   );
 }

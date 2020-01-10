@@ -3,6 +3,8 @@ import styled from "styled-components";
 import jars from "../../img/jars.jpg"
 import med from "../../img/med.jpg"
 import science from "../../img/science.jpg"
+import { withRouter } from 'react-router-dom';
+
 
 const S = {};
 
@@ -11,6 +13,7 @@ S.Container = styled.div`
     width: calc(100vw - (100vw - 100%));
     box-sizing: border-box;
     border: solid black 1px;
+    padding: 0px 80px;
 
     
     `
@@ -21,8 +24,9 @@ S.TopHalf = styled.section`
     height: 50vh;
     display: flex;
     align-items: center;
-    justify-content: space-around;
+    // justify-content: space-around;
     font-family: 'Lora', serif;
+    // border: solid red 1px;
 
 `
     
@@ -47,6 +51,7 @@ S.Confirmation = styled.div`
     strong {
         width: 170px;
         margin-right: 7%;
+        margin-left: 20%;
     }
 
     button {
@@ -63,19 +68,19 @@ S.Confirmation = styled.div`
 S.BottomHalf = styled.section`
     display: flex;
     align-items: flex-start;
-    justify-content: space-around;
+    justify-content: space-between;
     // border: solid red 1px;
     min-height: 50vh;
 
     div {
-        width: 33%;
         display: flex;
         flex-direction: column;
         align-items: center;
         // border: solid green 1px;
         height: 100%;
+        width: 30%;
         img {
-            width: 80%;
+            width: 100%;
             border: solid black 1px;
         }
 
@@ -83,8 +88,10 @@ S.BottomHalf = styled.section`
             font-size: 20px;
             font-family: 'Lora', serif;
             font-weight: 400;
-            width: 80%;
+            width: 100%;
+            max-width: 25w;
             // margin: 0px;
+            // display: none;
 
 
         }
@@ -93,7 +100,15 @@ S.BottomHalf = styled.section`
 `
 
 
-function Landing(){
+
+function Landing(props){
+
+
+    const verifyAge = () => {
+        props.history.push("/login")
+    }
+
+
     return (
         <S.Container>
             <S.TopHalf>
@@ -104,7 +119,7 @@ function Landing(){
                     <strong>
                         To enter, confirm age
                     </strong>
-                    <button>
+                    <button onClick = {() => verifyAge()}>
                         I AM 21+
                     </button>
                 </S.Confirmation>
@@ -130,4 +145,4 @@ function Landing(){
     )
 }
 
-export default Landing;
+export default withRouter(Landing);
