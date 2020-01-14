@@ -3,7 +3,7 @@ import {connect} from "react-redux";
 import RecCard from '../RecCard.js';
 import Reviewed from '../Reviewed.js';
 import styled from 'styled-components';
-import {updateUser} from '../../actions/actions';
+import {updateUser, changeDispStrain} from '../../actions/actions';
 
 import StrainButton from "./StrainButton";
 
@@ -207,15 +207,10 @@ class Dashboard extends Component {
     }
 
     changeDispStrain = (strain, iterator) => {
-        console.log("changeDispStrain trigger", strain)
-        this.setState({
-            ...this.state,
-            dispStrain: strain,
-            iterator: iterator + 1
-        })
+        this.props.changeDispStrain(strain, iterator + 1)
     }
 
-    changeRecommendation = (e) => {
+    changeRecommendations = (e) => {
         let desiredEffect = e.target.value;
         let user = this.props.user
         console.log("Change recommendation trigger, desiredEffect: ", desiredEffect)
@@ -236,9 +231,9 @@ class Dashboard extends Component {
                     <S.Left>
                         <S.Selector>
                             {/* header */}
-                            <h3 onClick = {() => this.changeDispStrain()}>Best strains for</h3>
+                            <h3>Best strains for</h3>
                             <select 
-                                onChange = {this.changeRecommendation}
+                                onChange = {this.changeRecommendations}
                                 name = "effects"
                             >
                                 <option value = "happy">happy</option>
@@ -301,14 +296,14 @@ class Dashboard extends Component {
 
                     <S.Right>
                         <S.Image>
-                            <img src = {this.state.dispStrain.imgUrl} />
+                            <img src = {this.props.dispStrain.imgUrl} />
                         </S.Image>
                         <S.Body>
                             <div>
-                                <h2>{this.state.iterator}: {this.state.dispStrain.name.toUpperCase()}</h2>
-                                <h4>{this.state.dispStrain.type.toUpperCase()}</h4>
+                                <h2>{this.props.iterator}: {this.props.dispStrain.name.toUpperCase()}</h2>
+                                <h4>{this.props.dispStrain.type.toUpperCase()}</h4>
                             </div>
-                            <body>{this.state.dispStrain.description}</body>
+                            <body>{this.props.dispStrain.description}</body>
                         </S.Body>
                         <button>SAVE</button>
                         
@@ -326,11 +321,13 @@ class Dashboard extends Component {
 function mapStateToProps(state){
     return {
         user: state.user,
-        recommendations: state.recommendations
+        recommendations: state.recommendations,
+        dispStrain: state.dispStrain,
+        iterator: state.iterator
     }
 }     
 
-export default connect(mapStateToProps, {updateUser})(Dashboard);
+export default connect(mapStateToProps, {updateUser, changeDispStrain})(Dashboard);
 
 // let iterator = 0;
         // {   

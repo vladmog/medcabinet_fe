@@ -22,6 +22,8 @@ export const UPDATEUSER_START = 'UPDATEUSER_START';
 export const UPDATEUSER_SUCCESS = 'UPDATEUSER_SUCCESS';
 export const UPDATEUSER_FAILURE = 'UPDATEUSER_FAILURE';
 
+export const CHANGEDISPSTRAIN = "UPDATEDISPSTRAIN";
+
 
 let local = true;
 // local = false;
@@ -147,3 +149,18 @@ export const login = creds => dispatch => {
         })
       })
   }
+
+
+  export const changeDispStrain = (strain, iterator) => dispatch => {
+  
+    dispatch({
+      type: CHANGEDISPSTRAIN,
+      payload: {
+        strain: strain,
+        iterator: iterator
+      }
+    })
+      
+
+  }
+
