@@ -36,7 +36,7 @@ class StrainButton extends Component {
     render(){
         console.log("REC: ", this.props.recommendation)
         return (
-            <S.Container>
+            <S.Container onClick = {this.props.onClick}>
                 {/* <h4>AK47</h4>
                 <span>{this.props.iterator}</span> */}
 
