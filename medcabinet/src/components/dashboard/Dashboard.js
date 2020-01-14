@@ -128,6 +128,7 @@ S.Right = styled.div`
         font-family: 'Lora', serif;
         align-self: flex-start;
         margin-top: 30px;
+        margin-bottom: 30px;
 
     }
 
@@ -228,8 +229,39 @@ class Dashboard extends Component {
                             {/* header */}
                             <h3 onClick = {() => this.changeDispStrain()}>Best strains for</h3>
                             <select name = "effects">
-                                <option value = "haba">Haba</option>
-                                <option value = "hava">Hava</option>
+                                <option value = "happy">happy</option>
+                                <option value = "euphoric">euphoric</option>
+                                <option value = "relaxed">relaxed</option>
+                                <option value = "giggly">giggly</option>
+                                <option value = "creative">creative</option>
+                                <option value = "uplifted">uplifted</option>
+                                <option value = "sleepy">sleepy</option>
+                                <option value = "energetic">energetic</option>
+                                <option value = "aroused">aroused</option>
+                                <option value = "focused">focused</option>
+                                <option value = "talkative">talkative</option>
+                                <option value = "hungry">hungry</option>
+                                <option value = "tingly">tingly</option>
+
+                                <option value = "stress">stress</option>
+                                <option value = "pain">pain</option>
+                                <option value = "nausea">nausea</option>
+                                <option value = "insomnia">insomnia</option>
+                                <option value = "depression">depression</option>
+                                <option value = "lackOfAppetite">lackOfAppetite</option>
+                                <option value = "muscleSpasms">muscleSpasms</option>
+                                <option value = "seizures">seizures</option>
+                                <option value = "fatigue">fatigue</option>
+                                <option value = "inflammation">inflammation</option>
+                                <option value = "spasticity">spasticity</option>
+                                <option value = "eyePressure">eyePressure</option>
+                                <option value = "cramps">cramps</option>
+                                <option value = "headaches">headaches</option>
+                                <option value = "dryMouth">dryMouth</option>
+                                <option value = "dizzy">dizzy</option>
+                                <option value = "anxious">anxious</option>
+                                <option value = "paranoid">paranoid</option>
+                                <option value = "headache">headache</option>
                             </select>
                         </S.Selector>
                         <S.Grid>
@@ -264,7 +296,6 @@ class Dashboard extends Component {
                                 <h2>{this.state.iterator}: {this.state.dispStrain.name.toUpperCase()}</h2>
                                 <h4>{this.state.dispStrain.type.toUpperCase()}</h4>
                             </div>
-                            <body>{this.state.dispStrain.description}</body>
                             <body>{this.state.dispStrain.description}</body>
                         </S.Body>
                         <button>SAVE</button>
