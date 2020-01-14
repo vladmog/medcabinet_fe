@@ -21,11 +21,12 @@ S.Container = styled.div`
 
 S.Logo = styled.h1`
     align-self: flex-start;
-    border: solid red 2px;
+    // border: solid red 2px;
     font-size: 48px;
     box-sizing: border-box;
     margin: 0px;
     // margin-right: 200px;
+    margin-top: 20px;
     line-height: 84%;
     width: 240px;
     height: 90px;
@@ -36,19 +37,19 @@ S.LeftAndRight = styled.div`
     width: 100%;
     display: flex;
     box-sizing: border-box;
-    border: solid grey 2px;
-    height: calc(100vh - 90px);
+    // border: solid grey 2px;
+    // height: calc(100vh - 90px);
 `
 
 S.Left = styled.div`
     width: 50%;
     box-sizing: border-box;
     padding: 0px 2vw;
-    border: solid yellow 1px;
+    // border: solid yellow 1px;
     height: 100%;
     // background-color: purple;
     // display: none;
-    border: solid black 2px;
+    // border: solid black 2px;
     display: flex;
     flex-direction: column;
     align-items: center;
@@ -61,7 +62,7 @@ S.Selector = styled.div`
     display: flex;
     border: solid white 1px;
     width: 100%;
-    height: 12%;
+    height: 11vh;
     align-items: center;
     justify-content: center;
     
@@ -90,7 +91,7 @@ S.Grid = styled.ol`
     grid-template-columns: 1fr 1fr 1fr;
     grid-template-rows: 1fr 1fr;
     grid-gap: 2vw;
-    border: solid black 1px;
+    // border: solid black 1px;
     padding: 0px;
     justify-items: center;
     align-items: center;
@@ -111,17 +112,82 @@ S.Right = styled.div`
     // background-color: red;
     width: 50%;
     align-self: flex-end;
+    padding: 0px 2vw;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+
+    button {
+        align-self: flex-end;
+        color: white;
+        background-color: black;
+        border: none;
+        font-size: 24px;
+        width: 227px;
+        height: 58px;
+        font-family: 'Lora', serif;
+        align-self: flex-start;
+        margin-top: 30px;
+
+    }
+
 
 `
 
-S.Image = styled.img`
-    box-sizing: border-box;
+S.Image = styled.div`
+
+    height: calc(13vw * 2);
+    margin-top: 11vh;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    // border: solid black 1px;
+    width: 100%;
+
+
+    
+    img {
+        box-sizing: border-box;
+        max-width: 100%;
+        max-height: 100%;
+        border: solid black 10px;
+        object-fit: fill;
+    }
+
+`
+
+S.Body = styled.div`
+    width: 100%;
+
+    div {
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        width: 100%;
+        height: 100px;
+
+        h2 {
+            font-size: 48px;
+        }
+        h4 {
+            font-size: 24px;
+            color: #11361B;
+        }
+        body {
+            font-size: 24px;
+        }
+    }
 
 `
 
 class Dashboard extends Component {
     state = {
-        dispStrain:{}
+        dispStrain:{
+            name: "",
+            type: "",
+            description: ""
+        },
+        iterator: 1,
     }
 
     componentDidMount(){
@@ -137,10 +203,12 @@ class Dashboard extends Component {
         window.location.reload();
     }
 
-    changeDispStrain(strain){
+    changeDispStrain = (strain, iterator) => {
+        console.log("changeDispStrain trigger", strain)
         this.setState({
             ...this.state,
-            dispStrain: strain
+            dispStrain: strain,
+            iterator: iterator + 1
         })
     }
 
@@ -158,7 +226,7 @@ class Dashboard extends Component {
                     <S.Left>
                         <S.Selector>
                             {/* header */}
-                            <h3>Best strains for</h3>
+                            <h3 onClick = {() => this.changeDispStrain()}>Best strains for</h3>
                             <select name = "effects">
                                 <option value = "haba">Haba</option>
                                 <option value = "hava">Hava</option>
@@ -173,10 +241,10 @@ class Dashboard extends Component {
                                     )
                                 })
                             } */}
-                            {this.props.recommendations.map((recommendation) => {
+                            {this.props.recommendations.map((recommendation, i) => {
                                     iterator++
                                     return(
-                                        <StrainButton iterator = {iterator} recommendation = {recommendation}/>
+                                        <StrainButton onClick = {() => this.changeDispStrain(recommendation, i)} iterator = {iterator} recommendation = {recommendation}/>
                                     )
                                 })
                             }
@@ -188,7 +256,18 @@ class Dashboard extends Component {
                     </S.Left>
 
                     <S.Right>
-                        <S.Image />
+                        <S.Image>
+                            <img src = {this.state.dispStrain.imgUrl} />
+                        </S.Image>
+                        <S.Body>
+                            <div>
+                                <h2>{this.state.iterator}: {this.state.dispStrain.name.toUpperCase()}</h2>
+                                <h4>{this.state.dispStrain.type.toUpperCase()}</h4>
+                            </div>
+                            <body>{this.state.dispStrain.description}</body>
+                            <body>{this.state.dispStrain.description}</body>
+                        </S.Body>
+                        <button>SAVE</button>
                         
 
                     </S.Right>
