@@ -3,6 +3,7 @@ import {
     REGISTER_START, REGISTER_SUCCESS, REGISTER_FAILURE,
     POSTREVIEW_START, POSTREVIEW_SUCCESS, POSTREVIEW_FAILURE,
     DELETEREVIEW_START, DELETEREVIEW_SUCCESS, DELETEREVIEW_FAILURE,    
+    UPDATEUSER_START, UPDATEUSER_SUCCESS, UPDATEUSER_FAILURE,    
 } from '../actions/actions';
     
 
@@ -99,6 +100,24 @@ export default function reducer (state = defaultState, action) {
             return {
                 ...state,
                 postingReview: false
+            }     
+    //################################
+        case UPDATEUSER_START:
+            return {
+                ...state,
+
+            }           
+        case UPDATEUSER_SUCCESS:
+            return {
+                ...state,
+                user: action.payload.user,
+                recommendations: action.payload.recommendations,
+                reviewedStrains: action.payload.reviewedStrains,
+
+            }           
+        case UPDATEUSER_FAILURE:
+            return {
+                ...state,
             }     
     //################################
         default:

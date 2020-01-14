@@ -3,6 +3,7 @@ import {connect} from "react-redux";
 import RecCard from '../RecCard.js';
 import Reviewed from '../Reviewed.js';
 import styled from 'styled-components';
+import {updateUser} from '../../actions/actions';
 
 import StrainButton from "./StrainButton";
 
@@ -198,6 +199,7 @@ class Dashboard extends Component {
         })
     }
 
+
     logOut = e => {
         e.preventDefault()
         localStorage.clear();
@@ -211,6 +213,13 @@ class Dashboard extends Component {
             dispStrain: strain,
             iterator: iterator + 1
         })
+    }
+
+    changeRecommendation = (e) => {
+        let desiredEffect = e.target.value;
+        let user = this.props.user
+        console.log("Change recommendation trigger, desiredEffect: ", desiredEffect)
+        this.props.updateUser(user, desiredEffect)
     }
 
 
@@ -228,7 +237,10 @@ class Dashboard extends Component {
                         <S.Selector>
                             {/* header */}
                             <h3 onClick = {() => this.changeDispStrain()}>Best strains for</h3>
-                            <select name = "effects">
+                            <select 
+                                onChange = {this.changeRecommendation}
+                                name = "effects"
+                            >
                                 <option value = "happy">happy</option>
                                 <option value = "euphoric">euphoric</option>
                                 <option value = "relaxed">relaxed</option>
@@ -318,7 +330,7 @@ function mapStateToProps(state){
     }
 }     
 
-export default connect(mapStateToProps, {})(Dashboard);
+export default connect(mapStateToProps, {updateUser})(Dashboard);
 
 // let iterator = 0;
         // {   
