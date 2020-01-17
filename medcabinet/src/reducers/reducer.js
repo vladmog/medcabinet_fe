@@ -3,6 +3,9 @@ import {
     REGISTER_START, REGISTER_SUCCESS, REGISTER_FAILURE,
     POSTREVIEW_START, POSTREVIEW_SUCCESS, POSTREVIEW_FAILURE,
     DELETEREVIEW_START, DELETEREVIEW_SUCCESS, DELETEREVIEW_FAILURE,    
+    UPDATEUSER_START, UPDATEUSER_SUCCESS, UPDATEUSER_FAILURE, 
+    CHANGEDISPSTRAIN,
+
 } from '../actions/actions';
     
 
@@ -17,6 +20,12 @@ let defaultState = {
 
     postingReview: false,
     reviewPosted: false,
+
+    dispStrain: {
+        name: "",
+        type: ""
+    },
+    iterator: 1
 }
 
 
@@ -35,7 +44,9 @@ export default function reducer (state = defaultState, action) {
                 reviewedStrains: action.payload.savedStrains,
                 recommendations: action.payload.recommendations,
                 loggingIn: false,
-                loggingInError: ""
+                loggingInError: "",
+                dispStrain: action.payload.recommendations[0],
+                iterator: 1
             }           
         case LOGIN_FAILURE:
             return {
@@ -99,6 +110,33 @@ export default function reducer (state = defaultState, action) {
             return {
                 ...state,
                 postingReview: false
+            }     
+    //################################
+        case UPDATEUSER_START: 
+            return {
+                ...state,
+
+            }           
+        case UPDATEUSER_SUCCESS:
+            return {
+                ...state,
+                user: action.payload.user,
+                recommendations: action.payload.recommendations,
+                reviewedStrains: action.payload.reviewedStrains,
+                dispStrain: action.payload.recommendations[0],
+                iterator: 1
+
+            }           
+        case UPDATEUSER_FAILURE:
+            return {
+                ...state,
+            }     
+    //################################
+        case CHANGEDISPSTRAIN:
+            return {
+                ...state,
+                dispStrain: action.payload.strain,
+                iterator: action.payload.iterator
             }     
     //################################
         default:

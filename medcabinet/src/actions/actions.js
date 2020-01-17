@@ -18,6 +18,12 @@ export const DELETEREVIEW_START = 'DELETEREVIEW_START';
 export const DELETEREVIEW_SUCCESS = 'DELETEREVIEW_SUCCESS';
 export const DELETEREVIEW_FAILURE = 'DELETEREVIEW_FAILURE';
 
+export const UPDATEUSER_START = 'UPDATEUSER_START';
+export const UPDATEUSER_SUCCESS = 'UPDATEUSER_SUCCESS';
+export const UPDATEUSER_FAILURE = 'UPDATEUSER_FAILURE';
+
+export const CHANGEDISPSTRAIN = "UPDATEDISPSTRAIN";
+
 
 let local = true;
 // local = false;
@@ -120,3 +126,41 @@ export const login = creds => dispatch => {
         })
       })
   }
+
+  export const updateUser = (user, desiredEffect) => dispatch => {
+    dispatch({
+      type: UPDATEUSER_START
+    });
+    user.goal = `${desiredEffect}`
+
+    return axiosAuth()
+      .patch(`${url}/api/users/${user.id}`, user)
+      .then(res => {
+        console.log("UPDATEUSER RES: ", res)
+        dispatch({
+          type: UPDATEUSER_SUCCESS,
+          payload: res.data
+        })
+      })
+      .catch(err => {
+        console.log("UPDATEUSER ERR:", err)
+        dispatch({
+          type: UPDATEUSER_FAILURE
+        })
+      })
+  }
+
+
+  export const changeDispStrain = (strain, iterator) => dispatch => {
+  
+    dispatch({
+      type: CHANGEDISPSTRAIN,
+      payload: {
+        strain: strain,
+        iterator: iterator
+      }
+    })
+      
+
+  }
+
