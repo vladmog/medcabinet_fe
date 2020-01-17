@@ -137,7 +137,7 @@ function Landing(props){
 
                 <div>
                     <img src = {jars} alt = "" />
-                    <h3>Save strains with your notes attached</h3>
+                    <h3>Save and keep track of your favorite strains</h3>
                 </div>
             </S.BottomHalf>
             

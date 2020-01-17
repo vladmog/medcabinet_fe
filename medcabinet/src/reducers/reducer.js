@@ -112,7 +112,7 @@ export default function reducer (state = defaultState, action) {
                 postingReview: false
             }     
     //################################
-        case UPDATEUSER_START:
+        case UPDATEUSER_START: 
             return {
                 ...state,
 

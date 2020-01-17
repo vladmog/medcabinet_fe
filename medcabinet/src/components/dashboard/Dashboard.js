@@ -3,9 +3,10 @@ import {connect} from "react-redux";
 import RecCard from '../RecCard.js';
 import Reviewed from '../Reviewed.js';
 import styled from 'styled-components';
-import {updateUser, changeDispStrain} from '../../actions/actions';
+import {updateUser, changeDispStrain, postReview} from '../../actions/actions';
 
 import StrainButton from "./StrainButton";
+import SaveModal from "./SaveModal";
 
 
 const S = {};
@@ -104,7 +105,12 @@ S.Grid = styled.ol`
 
 S.Links = styled.section`
     box-sizing: border-box;
-
+    // border: solid black 1px;
+    width: 100%;
+    font-size: 22px;
+    display: flex;
+    justify-content: space-around;
+    margin-top: 5vh;
 `
 
 S.Right = styled.div`
@@ -190,6 +196,7 @@ class Dashboard extends Component {
             description: ""
         },
         iterator: 1,
+        isModalOn: false
     }
 
     componentDidMount(){
@@ -217,15 +224,41 @@ class Dashboard extends Component {
         this.props.updateUser(user, desiredEffect)
     }
 
+    saveStrain = e => {
+        e.preventDefault();
+        // this.props.postReview(this.props.dispStrain, this.props.user.id)
+
+    }
+
+    toggleModal = () => {
+        this.setState({
+            ...this.state,
+            isModalOn: !this.state.isModalOn
+        })
+    }
+
 
 
     render(){
-        console.log(this.state.dispStrain.name)
+        // console.log(this.state.dispStrain.name)
+        console.log(this.state.isModalOn)
         let iterator = 0;
         let arrayOfSix = [1, 2, 3, 4, 5, 6]
 
         return (
             <S.Container>
+                { this.state.isModalOn
+                    ? (
+                      <div>
+                        <SaveModal />
+                      </div>
+                    )
+                    : (
+                      <div>
+                        {/* OFF */}
+                      </div>
+                    )
+                  }
                 <S.Logo>MED CABINET</S.Logo>
                 <S.LeftAndRight>
                     <S.Left>
@@ -290,7 +323,9 @@ class Dashboard extends Component {
                         </S.Grid>
                         <S.Links>
                             {/* recommendations */}
+                            <span>recommendations</span>
                             {/* saved strains */}
+                            <span>saved strains</span>
                         </S.Links>
                     </S.Left>
 
@@ -305,7 +340,7 @@ class Dashboard extends Component {
                             </div>
                             <body>{this.props.dispStrain.description}</body>
                         </S.Body>
-                        <button>SAVE</button>
+                        <button onClick = {this.toggleModal}>SAVE</button>
                         
 
                     </S.Right>
@@ -327,7 +362,7 @@ function mapStateToProps(state){
     }
 }     
 
-export default connect(mapStateToProps, {updateUser, changeDispStrain})(Dashboard);
+export default connect(mapStateToProps, {updateUser, changeDispStrain, postReview})(Dashboard);
 
 // let iterator = 0;
         // {   
