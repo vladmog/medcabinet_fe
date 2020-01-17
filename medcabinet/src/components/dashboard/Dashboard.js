@@ -3,7 +3,7 @@ import {connect} from "react-redux";
 import RecCard from '../RecCard.js';
 import Reviewed from '../Reviewed.js';
 import styled from 'styled-components';
-import {updateUser, changeDispStrain, postReview} from '../../actions/actions';
+import {updateUser, changeDispStrain, postReview, modalToggle} from '../../actions/actions';
 
 import StrainButton from "./StrainButton";
 import SaveModal from "./SaveModal";
@@ -19,6 +19,7 @@ S.Container = styled.div`
     padding: 0px 80px;
     font-family: 'Lora', serif;
     box-sizing: border-box;
+    filter: blur(${props => props.filter}rem)
 `
 
 S.Logo = styled.h1`
@@ -196,7 +197,8 @@ class Dashboard extends Component {
             description: ""
         },
         iterator: 1,
-        isModalOn: false
+        isModalOn: false,
+        filter: 0
     }
 
     componentDidMount(){
@@ -233,9 +235,18 @@ class Dashboard extends Component {
     toggleModal = () => {
         this.setState({
             ...this.state,
-            isModalOn: !this.state.isModalOn
+            filter: .2
         })
+        this.props.modalToggle()
+        setTimeout(() => {
+            this.setState({
+                ...this.state,
+                filter: 0
+            })
+            this.props.modalToggle()
+        }, 2000)
     }
+    
 
 
 
@@ -246,19 +257,7 @@ class Dashboard extends Component {
         let arrayOfSix = [1, 2, 3, 4, 5, 6]
 
         return (
-            <S.Container>
-                { this.state.isModalOn
-                    ? (
-                      <div>
-                        <SaveModal />
-                      </div>
-                    )
-                    : (
-                      <div>
-                        {/* OFF */}
-                      </div>
-                    )
-                  }
+            <S.Container filter = {this.state.filter}>
                 <S.Logo>MED CABINET</S.Logo>
                 <S.LeftAndRight>
                     <S.Left>
@@ -358,11 +357,12 @@ function mapStateToProps(state){
         user: state.user,
         recommendations: state.recommendations,
         dispStrain: state.dispStrain,
-        iterator: state.iterator
+        iterator: state.iterator,
+        isModalOn: state.isModalOn
     }
 }     
 
-export default connect(mapStateToProps, {updateUser, changeDispStrain, postReview})(Dashboard);
+export default connect(mapStateToProps, {updateUser, changeDispStrain, postReview, modalToggle})(Dashboard);
 
 // let iterator = 0;
         // {   

@@ -24,6 +24,8 @@ export const UPDATEUSER_FAILURE = 'UPDATEUSER_FAILURE';
 
 export const CHANGEDISPSTRAIN = "UPDATEDISPSTRAIN";
 
+export const MODALTOGGLE = "MODALTOGGLE"
+
 
 let local = true;
 // local = false;
@@ -160,7 +162,12 @@ export const login = creds => dispatch => {
         iterator: iterator
       }
     })
-      
+  }
 
+  export const modalToggle = () => dispatch => {
+
+    dispatch({
+      type: MODALTOGGLE
+    })
   }
 

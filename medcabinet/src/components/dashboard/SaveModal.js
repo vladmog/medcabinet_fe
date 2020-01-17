@@ -13,16 +13,20 @@ S.Container = styled.div`
     display: flex;
     justify-content: center;
     align-items: center;
+    filter: blur(0);
+    z-index: 10;
 `
 
-S.Form = styled.form`
+S.Message = styled.div`
   display: flex;
+  position: fixed;
   flex-direction: column;
-  background-color: black;
-  min-height: 70vh;
+  background-color: #94A599;
+  min-height: 30vh;
   width: 34%;
   padding: 4% 3% 4%;
   box-sizing: border-box;
+  border-radius: 15px;
 
   div {
     width: 100%;
@@ -47,9 +51,9 @@ class SaveModal extends Component {
     render(){
         return (
             <S.Container>
-                <S.Form>
-
-                </S.Form>
+                <S.Message>
+                    {this.props.dispStrain.name} was saved
+                </S.Message>
                 
             </S.Container>
         )

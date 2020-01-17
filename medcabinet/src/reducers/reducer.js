@@ -5,6 +5,7 @@ import {
     DELETEREVIEW_START, DELETEREVIEW_SUCCESS, DELETEREVIEW_FAILURE,    
     UPDATEUSER_START, UPDATEUSER_SUCCESS, UPDATEUSER_FAILURE, 
     CHANGEDISPSTRAIN,
+    MODALTOGGLE
 
 } from '../actions/actions';
     
@@ -25,7 +26,8 @@ let defaultState = {
         name: "",
         type: ""
     },
-    iterator: 1
+    iterator: 1,
+    isModalOn: false
 }
 
 
@@ -137,6 +139,12 @@ export default function reducer (state = defaultState, action) {
                 ...state,
                 dispStrain: action.payload.strain,
                 iterator: action.payload.iterator
+            }     
+    //################################
+        case MODALTOGGLE:
+            return {
+                ...state,
+                isModalOn: !state.isModalOn
             }     
     //################################
         default:
