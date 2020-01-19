@@ -381,9 +381,13 @@ class Dashboard extends Component {
                         )}
                         <S.Links>
                             {/* recommendations */}
-                            <span>recommendations</span>
+                            <span onClick = {
+                                this.state.isDisplayingSaved ? this.toggleSaved : {}
+                            }>recommendations</span>
                             {/* saved strains */}
-                            <span onClick = {this.toggleSaved}>saved strains</span>
+                            <span onClick = {
+                                this.state.isDisplayingSaved ? {} : this.toggleSaved
+                            }>saved strains</span>
                         </S.Links>
                     </S.Left>
 
