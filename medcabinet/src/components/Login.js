@@ -9,15 +9,12 @@ S.Container = styled.div`
   width: calc(100vw - (100vw - 100%));
   min-height: 100vh;
   border: solid black 1px;
-  display: flex;
+  display: flex; 
   flex-direction: column;
   justify-content: center;
   align-items: center;
   background-color: black;
   font-family: 'Lora', serif;
-
-
-
 `
 
 S.H1 = styled.h1`

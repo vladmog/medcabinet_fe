@@ -22,24 +22,20 @@ S.Message = styled.div`
   position: fixed;
   flex-direction: column;
   background-color: #94A599;
+//   background-color: black;
+//   color: white;
   min-height: 30vh;
   width: 34%;
   padding: 4% 3% 4%;
   box-sizing: border-box;
   border-radius: 15px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-family: 'Lora', serif;
+  font-size: 24px;
 
-  div {
-    width: 100%;
-    // border: solid black 1px;
-    display: flex;
-    flex-direction: column;
 
-    span {
-      font-size: 18px;
-      align-self: center;
-      margin-top: 14px;
-    }
-  }
 
 `
 

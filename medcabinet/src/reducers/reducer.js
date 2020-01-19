@@ -13,7 +13,7 @@ import {
 let defaultState = {
     user: {},
     recommendations: [{}],
-    reviewedStrains: [],
+    savedStrains: [],
 
     loggingIn: false,
     registering: false,
@@ -43,7 +43,7 @@ export default function reducer (state = defaultState, action) {
             return {
                 ...state,
                 user: action.payload.user,
-                reviewedStrains: action.payload.savedStrains,
+                savedStrains: action.payload.savedStrains,
                 recommendations: action.payload.recommendations,
                 loggingIn: false,
                 loggingInError: "",
@@ -87,7 +87,7 @@ export default function reducer (state = defaultState, action) {
                 ...state,
                 postingReview: false,
                 reviewPosted: true,
-                reviewedStrains: action.payload
+                savedStrains: action.payload
             }           
         case POSTREVIEW_FAILURE:
             return {
@@ -106,7 +106,7 @@ export default function reducer (state = defaultState, action) {
                 ...state,
                 postingReview: false,
                 reviewPosted: true,
-                reviewedStrains: action.payload
+                savedStrains: action.payload
             }           
         case DELETEREVIEW_FAILURE:
             return {
@@ -124,7 +124,7 @@ export default function reducer (state = defaultState, action) {
                 ...state,
                 user: action.payload.user,
                 recommendations: action.payload.recommendations,
-                reviewedStrains: action.payload.reviewedStrains,
+                savedStrains: action.payload.savedStrains,
                 dispStrain: action.payload.recommendations[0],
                 iterator: 1
 
