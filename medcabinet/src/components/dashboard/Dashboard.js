@@ -255,6 +255,7 @@ class Dashboard extends Component {
     }
 
     toggleSaved = () => {
+        console.log("Toggling")
         if (this.state.isDisplayingSaved){
             console.log("Toggling to display recommendation one")
             this.changeDispStrain(this.props.recommendations[0], 0)
@@ -280,6 +281,7 @@ class Dashboard extends Component {
 
     render(){
 
+        console.log(this.state.isDisplayingSaved)
         let iterator = 0;
 
         return (
@@ -364,12 +366,10 @@ class Dashboard extends Component {
                         )}
                         <S.Links>
                             {/* recommendations */}
-                            <span onClick = {() =>
-                                this.state.isDisplayingSaved ? this.toggleSaved : {}
+                            <span onClick = {this.state.isDisplayingSaved ? this.toggleSaved : this.toggleSaved
                             }>recommendations</span>
                             {/* saved strains */}
-                            <span onClick = {() =>
-                                this.state.isDisplayingSaved ? {} : this.toggleSaved
+                            <span onClick = {this.state.isDisplayingSaved ? this.toggleSaved : this.toggleSaved
                             }>saved strains</span>
                         </S.Links>
                     </S.Left>

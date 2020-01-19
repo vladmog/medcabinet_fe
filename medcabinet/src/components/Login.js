@@ -142,14 +142,7 @@ class Login extends React.Component {
   
 
     render() {
-        let message = "Login/Register"
-        if(this.props.registering){
-            message = "...registering"
-        } else if (this.props.loggingIn) {
-            message = "...logging in"
-        } else if (this.props.registered) {
-            message = "Registered!"
-        }
+   
         return (
             <S.Container>
               {/* <h1>{message}</h1> */}
