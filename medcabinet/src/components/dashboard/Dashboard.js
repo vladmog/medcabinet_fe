@@ -1,9 +1,7 @@
 import React, { Component } from 'react';
 import {connect} from "react-redux";
-import RecCard from '../RecCard.js';
-import Reviewed from '../Reviewed.js';
 import styled from 'styled-components';
-import {updateUser, changeDispStrain, postReview} from '../../actions/actions';
+import {updateUser, changeDispStrain, saveStrain, modalToggle, deleteStrain} from '../../actions/actions';
 
 import StrainButton from "./StrainButton";
 import SaveModal from "./SaveModal";
@@ -19,6 +17,9 @@ S.Container = styled.div`
     padding: 0px 80px;
     font-family: 'Lora', serif;
     box-sizing: border-box;
+    filter: blur(${props => props.filter}rem);
+    transition-duration: .5s;
+    transition-timing-function: linear;
 `
 
 S.Logo = styled.h1`
@@ -66,7 +67,7 @@ S.Selector = styled.div`
     width: 100%;
     height: 11vh;
     align-items: center;
-    justify-content: center;
+    justify-content: flex-start;
     
 
     h3 {
@@ -87,6 +88,10 @@ S.Selector = styled.div`
 
 `
 
+S.SavedHeader = styled(S.Selector)`
+    justify-content: flex-start
+`
+
 S.Grid = styled.ol`
     box-sizing: border-box;
     display: grid;
@@ -98,7 +103,7 @@ S.Grid = styled.ol`
     justify-items: center;
     align-items: center;
     width: calc(13vw * 3);
-    height: calc(13vw * 2);
+    min-height: calc(13vw * 2);
     margin: 0px;
 
 `
@@ -188,6 +193,13 @@ S.Body = styled.div`
 
 `
 
+S.SavedContainer = styled.div`
+    height: 11vh;
+    margin: 0px;
+    display: flex;
+    align-items: center;
+`
+
 class Dashboard extends Component {
     state = {
         dispStrain:{
@@ -196,7 +208,9 @@ class Dashboard extends Component {
             description: ""
         },
         iterator: 1,
-        isModalOn: false
+        isModalOn: false,
+        filter: 0,
+        isDisplayingSaved: false
     }
 
     componentDidMount(){
@@ -224,112 +238,145 @@ class Dashboard extends Component {
         this.props.updateUser(user, desiredEffect)
     }
 
-    saveStrain = e => {
-        e.preventDefault();
-        // this.props.postReview(this.props.dispStrain, this.props.user.id)
 
-    }
-
-    toggleModal = () => {
+    saveStrain = () => {
+        this.props.saveStrain(this.props.dispStrain, this.props.user.id)
         this.setState({
             ...this.state,
-            isModalOn: !this.state.isModalOn
+            filter: .2
+        })
+        this.props.modalToggle()
+        setTimeout(() => {
+            this.setState({
+                ...this.state,
+                filter: 0
+            })
+            this.props.modalToggle()
+        }, 2000)
+    }
+
+    toggleSaved = () => {
+        if (this.state.isDisplayingSaved){
+            console.log("Toggling to display recommendation one")
+            this.changeDispStrain(this.props.recommendations[0], 0)
+        }
+        else {
+            console.log("Toggling to display saved")
+            this.changeDispStrain(this.props.savedStrains[0], 0)
+        }
+        this.setState({
+            ...this.state,
+            isDisplayingSaved: !this.state.isDisplayingSaved
         })
     }
+
+    deleteStrain = () => {
+        this.props.deleteStrain(this.props.dispStrain.id, this.props.user.id)
+        this.changeDispStrain(this.props.savedStrains[0], 0)
+    }
+    
+    
 
 
 
     render(){
-        // console.log(this.state.dispStrain.name)
-        console.log(this.state.isModalOn)
+
         let iterator = 0;
-        let arrayOfSix = [1, 2, 3, 4, 5, 6]
 
         return (
-            <S.Container>
-                { this.state.isModalOn
-                    ? (
-                      <div>
-                        <SaveModal />
-                      </div>
-                    )
-                    : (
-                      <div>
-                        {/* OFF */}
-                      </div>
-                    )
-                  }
+            <S.Container filter = {this.state.filter}>
                 <S.Logo>MED CABINET</S.Logo>
                 <S.LeftAndRight>
                     <S.Left>
-                        <S.Selector>
-                            {/* header */}
-                            <h3>Best strains for</h3>
-                            <select 
-                                onChange = {this.changeRecommendations}
-                                name = "effects"
-                            >
-                                <option value = "happy">happy</option>
-                                <option value = "euphoric">euphoric</option>
-                                <option value = "relaxed">relaxed</option>
-                                <option value = "giggly">giggly</option>
-                                <option value = "creative">creative</option>
-                                <option value = "uplifted">uplifted</option>
-                                <option value = "sleepy">sleepy</option>
-                                <option value = "energetic">energetic</option>
-                                <option value = "aroused">aroused</option>
-                                <option value = "focused">focused</option>
-                                <option value = "talkative">talkative</option>
-                                <option value = "hungry">hungry</option>
-                                <option value = "tingly">tingly</option>
+                        {this.state.isDisplayingSaved
+                        ?(
+                            // S A V E D   S T R A I N S   V I E W 
+                            <div>
+                                <S.SavedHeader>
+                                    <h3>Your saved strains</h3>
+                                </S.SavedHeader>
+                                <S.Grid>
+                                    {this.props.savedStrains.map((savedStrain, i) => {
+                                            iterator++
+                                            return(
+                                                <StrainButton onClick = {() => this.changeDispStrain(savedStrain, i)} iterator = {iterator} recommendation = {savedStrain}/>
+                                            )
+                                        })
+                                    }
+                                </S.Grid>
 
-                                <option value = "stress">stress</option>
-                                <option value = "pain">pain</option>
-                                <option value = "nausea">nausea</option>
-                                <option value = "insomnia">insomnia</option>
-                                <option value = "depression">depression</option>
-                                <option value = "lackOfAppetite">lackOfAppetite</option>
-                                <option value = "muscleSpasms">muscleSpasms</option>
-                                <option value = "seizures">seizures</option>
-                                <option value = "fatigue">fatigue</option>
-                                <option value = "inflammation">inflammation</option>
-                                <option value = "spasticity">spasticity</option>
-                                <option value = "eyePressure">eyePressure</option>
-                                <option value = "cramps">cramps</option>
-                                <option value = "headaches">headaches</option>
-                                <option value = "dryMouth">dryMouth</option>
-                                <option value = "dizzy">dizzy</option>
-                                <option value = "anxious">anxious</option>
-                                <option value = "paranoid">paranoid</option>
-                                <option value = "headache">headache</option>
-                            </select>
-                        </S.Selector>
-                        <S.Grid>
-                            {/* map */}  
-                            {/* {arrayOfSix.map((recommendation) => {
-                                    iterator++
-                                    return(
-                                        <StrainButton iterator = {recommendation} recommendation = {recommendation}/>
-                                    )
-                                })
-                            } */}
-                            {this.props.recommendations.map((recommendation, i) => {
-                                    iterator++
-                                    return(
-                                        <StrainButton onClick = {() => this.changeDispStrain(recommendation, i)} iterator = {iterator} recommendation = {recommendation}/>
-                                    )
-                                })
-                            }
-                        </S.Grid>
+                            </div>
+                        )
+                        :(
+                            // R E C O M M E N D A T I O N S   V I E W 
+                            <div>
+                                <S.Selector>
+                                    {/* header */}
+                                    <h3>Best strains for</h3>
+                                    <select 
+                                        onChange = {this.changeRecommendations}
+                                        name = "effects"
+                                    >
+                                        <option value = "happy">happy</option>
+                                        <option value = "euphoric">euphoric</option>
+                                        <option value = "relaxed">relaxed</option>
+                                        <option value = "giggly">giggly</option>
+                                        <option value = "creative">creative</option>
+                                        <option value = "uplifted">uplifted</option>
+                                        <option value = "sleepy">sleepy</option>
+                                        <option value = "energetic">energetic</option>
+                                        <option value = "aroused">aroused</option>
+                                        <option value = "focused">focused</option>
+                                        <option value = "talkative">talkative</option>
+                                        <option value = "hungry">hungry</option>
+                                        <option value = "tingly">tingly</option>
+
+                                        <option value = "stress">stress</option>
+                                        <option value = "pain">pain</option>
+                                        <option value = "nausea">nausea</option>
+                                        <option value = "insomnia">insomnia</option>
+                                        <option value = "depression">depression</option>
+                                        <option value = "lackOfAppetite">lackOfAppetite</option>
+                                        <option value = "muscleSpasms">muscleSpasms</option>
+                                        <option value = "seizures">seizures</option>
+                                        <option value = "fatigue">fatigue</option>
+                                        <option value = "inflammation">inflammation</option>
+                                        <option value = "spasticity">spasticity</option>
+                                        <option value = "eyePressure">eyePressure</option>
+                                        <option value = "cramps">cramps</option>
+                                        <option value = "headaches">headaches</option>
+                                        <option value = "dryMouth">dryMouth</option>
+                                        <option value = "dizzy">dizzy</option>
+                                        <option value = "anxious">anxious</option>
+                                        <option value = "paranoid">paranoid</option>
+                                        <option value = "headache">headache</option>
+                                    </select>
+                                </S.Selector>
+                                <S.Grid>
+                                    {this.props.recommendations.map((recommendation, i) => {
+                                            iterator++
+                                            return(
+                                                <StrainButton onClick = {() => this.changeDispStrain(recommendation, i)} iterator = {iterator} recommendation = {recommendation}/>
+                                            )
+                                        })
+                                    }
+                                </S.Grid>
+                            </div>
+                        )}
                         <S.Links>
                             {/* recommendations */}
-                            <span>recommendations</span>
+                            <span onClick = {
+                                this.state.isDisplayingSaved ? this.toggleSaved : {}
+                            }>recommendations</span>
                             {/* saved strains */}
-                            <span>saved strains</span>
+                            <span onClick = {
+                                this.state.isDisplayingSaved ? {} : this.toggleSaved
+                            }>saved strains</span>
                         </S.Links>
                     </S.Left>
 
                     <S.Right>
+                        {/* D I S P L A Y */}
                         <S.Image>
                             <img src = {this.props.dispStrain.imgUrl} />
                         </S.Image>
@@ -340,7 +387,11 @@ class Dashboard extends Component {
                             </div>
                             <body>{this.props.dispStrain.description}</body>
                         </S.Body>
-                        <button onClick = {this.toggleModal}>SAVE</button>
+                        
+                        {this.state.isDisplayingSaved
+                            ? <button onClick = {this.deleteStrain}>DELETE</button>
+                            : <button onClick = {this.saveStrain}>SAVE</button>
+                        }
                         
 
                     </S.Right>
@@ -358,22 +409,11 @@ function mapStateToProps(state){
         user: state.user,
         recommendations: state.recommendations,
         dispStrain: state.dispStrain,
-        iterator: state.iterator
+        iterator: state.iterator,
+        isModalOn: state.isModalOn,
+        savedStrains: state.savedStrains
     }
 }     
 
-export default connect(mapStateToProps, {updateUser, changeDispStrain, postReview})(Dashboard);
-
-// let iterator = 0;
-        // {   
-        //     this.props.recommendations.map((recommendation) => {
-        //         iterator++
-        //         return(
-        //             <RecButton onClick = {() => this.changeDispStrain(recommendation)}>
-        //                 <div>{iterator}</div>
-        //             </RecButton>
-        //         )
-        //     })
-        // }
-
+export default connect(mapStateToProps, {updateUser, changeDispStrain, saveStrain, modalToggle, deleteStrain})(Dashboard);
 

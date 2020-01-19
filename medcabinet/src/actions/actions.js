@@ -24,6 +24,8 @@ export const UPDATEUSER_FAILURE = 'UPDATEUSER_FAILURE';
 
 export const CHANGEDISPSTRAIN = "UPDATEDISPSTRAIN";
 
+export const MODALTOGGLE = "MODALTOGGLE"
+
 
 let local = true;
 // local = false;
@@ -83,7 +85,7 @@ export const login = creds => dispatch => {
       });
   };
 
-  export const postReview = (review, user_id) => dispatch => {
+  export const saveStrain = (review, user_id) => dispatch => {
     console.log("review obj", {strain_id: review.id})
     console.log("user_id: ", user_id)
     dispatch({ 
@@ -106,7 +108,7 @@ export const login = creds => dispatch => {
       });
   };
 
-  export const deleteReview = (strain_id, user_id) => dispatch => {
+  export const deleteStrain = (strain_id, user_id) => dispatch => {
     dispatch({
       type: DELETEREVIEW_START
     });
@@ -160,7 +162,12 @@ export const login = creds => dispatch => {
         iterator: iterator
       }
     })
-      
+  }
 
+  export const modalToggle = () => dispatch => {
+
+    dispatch({
+      type: MODALTOGGLE
+    })
   }
 

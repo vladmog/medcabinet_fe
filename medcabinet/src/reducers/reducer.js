@@ -5,6 +5,7 @@ import {
     DELETEREVIEW_START, DELETEREVIEW_SUCCESS, DELETEREVIEW_FAILURE,    
     UPDATEUSER_START, UPDATEUSER_SUCCESS, UPDATEUSER_FAILURE, 
     CHANGEDISPSTRAIN,
+    MODALTOGGLE
 
 } from '../actions/actions';
     
@@ -12,7 +13,7 @@ import {
 let defaultState = {
     user: {},
     recommendations: [{}],
-    reviewedStrains: [],
+    savedStrains: [],
 
     loggingIn: false,
     registering: false,
@@ -25,7 +26,8 @@ let defaultState = {
         name: "",
         type: ""
     },
-    iterator: 1
+    iterator: 1,
+    isModalOn: false
 }
 
 
@@ -41,7 +43,7 @@ export default function reducer (state = defaultState, action) {
             return {
                 ...state,
                 user: action.payload.user,
-                reviewedStrains: action.payload.savedStrains,
+                savedStrains: action.payload.savedStrains,
                 recommendations: action.payload.recommendations,
                 loggingIn: false,
                 loggingInError: "",
@@ -85,7 +87,7 @@ export default function reducer (state = defaultState, action) {
                 ...state,
                 postingReview: false,
                 reviewPosted: true,
-                reviewedStrains: action.payload
+                savedStrains: action.payload
             }           
         case POSTREVIEW_FAILURE:
             return {
@@ -104,7 +106,7 @@ export default function reducer (state = defaultState, action) {
                 ...state,
                 postingReview: false,
                 reviewPosted: true,
-                reviewedStrains: action.payload
+                savedStrains: action.payload
             }           
         case DELETEREVIEW_FAILURE:
             return {
@@ -122,7 +124,7 @@ export default function reducer (state = defaultState, action) {
                 ...state,
                 user: action.payload.user,
                 recommendations: action.payload.recommendations,
-                reviewedStrains: action.payload.reviewedStrains,
+                savedStrains: action.payload.savedStrains,
                 dispStrain: action.payload.recommendations[0],
                 iterator: 1
 
@@ -137,6 +139,12 @@ export default function reducer (state = defaultState, action) {
                 ...state,
                 dispStrain: action.payload.strain,
                 iterator: action.payload.iterator
+            }     
+    //################################
+        case MODALTOGGLE:
+            return {
+                ...state,
+                isModalOn: !state.isModalOn
             }     
     //################################
         default:

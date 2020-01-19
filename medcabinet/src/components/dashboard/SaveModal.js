@@ -13,29 +13,29 @@ S.Container = styled.div`
     display: flex;
     justify-content: center;
     align-items: center;
+    filter: blur(0);
+    z-index: 10;
 `
 
-S.Form = styled.form`
+S.Message = styled.div`
   display: flex;
+  position: fixed;
   flex-direction: column;
-  background-color: black;
-  min-height: 70vh;
+  background-color: #94A599;
+//   background-color: black;
+//   color: white;
+  min-height: 30vh;
   width: 34%;
   padding: 4% 3% 4%;
   box-sizing: border-box;
+  border-radius: 15px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-family: 'Lora', serif;
+  font-size: 24px;
 
-  div {
-    width: 100%;
-    // border: solid black 1px;
-    display: flex;
-    flex-direction: column;
 
-    span {
-      font-size: 18px;
-      align-self: center;
-      margin-top: 14px;
-    }
-  }
 
 `
 
@@ -47,9 +47,9 @@ class SaveModal extends Component {
     render(){
         return (
             <S.Container>
-                <S.Form>
-
-                </S.Form>
+                <S.Message>
+                    {this.props.dispStrain.name} was saved
+                </S.Message>
                 
             </S.Container>
         )
