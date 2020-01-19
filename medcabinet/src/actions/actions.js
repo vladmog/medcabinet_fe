@@ -28,7 +28,7 @@ export const MODALTOGGLE = "MODALTOGGLE"
 
 
 let local = true;
-// local = false;
+local = false;
 
 let url = "https://med-cabinet-temp.herokuapp.com"
 if (local){
@@ -54,6 +54,7 @@ export const login = creds => dispatch => {
           type: LOGIN_SUCCESS, 
           payload: res.data 
         });
+        return("success")
       })
       .catch(err => {
         console.log("LOGIN ERR: ", err)
@@ -61,6 +62,7 @@ export const login = creds => dispatch => {
           type: LOGIN_FAILURE, 
           payload: err.response.message 
         });
+        return("error")
       });
   };
 

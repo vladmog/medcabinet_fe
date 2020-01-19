@@ -4,7 +4,6 @@ import styled from 'styled-components';
 import {updateUser, changeDispStrain, saveStrain, modalToggle, deleteStrain} from '../../actions/actions';
 
 import StrainButton from "./StrainButton";
-import SaveModal from "./SaveModal";
 
 
 const S = {};
@@ -177,7 +176,7 @@ S.Body = styled.div`
         justify-content: space-between;
         align-items: center;
         width: 100%;
-        height: 100px;
+        min-height: 100px;
 
         h2 {
             font-size: 48px;
@@ -186,7 +185,7 @@ S.Body = styled.div`
             font-size: 24px;
             color: #11361B;
         }
-        body {
+        div {
             font-size: 24px;
         }
     }
@@ -299,7 +298,7 @@ class Dashboard extends Component {
                                     {this.props.savedStrains.map((savedStrain, i) => {
                                             iterator++
                                             return(
-                                                <StrainButton onClick = {() => this.changeDispStrain(savedStrain, i)} iterator = {iterator} recommendation = {savedStrain}/>
+                                                <StrainButton key = {savedStrain.id} onClick = {() => this.changeDispStrain(savedStrain, i)} iterator = {iterator} recommendation = {savedStrain}/>
                                             )
                                         })
                                     }
@@ -356,7 +355,7 @@ class Dashboard extends Component {
                                     {this.props.recommendations.map((recommendation, i) => {
                                             iterator++
                                             return(
-                                                <StrainButton onClick = {() => this.changeDispStrain(recommendation, i)} iterator = {iterator} recommendation = {recommendation}/>
+                                                <StrainButton key = {recommendation.id} onClick = {() => this.changeDispStrain(recommendation, i)} iterator = {iterator} recommendation = {recommendation}/>
                                             )
                                         })
                                     }
@@ -365,11 +364,11 @@ class Dashboard extends Component {
                         )}
                         <S.Links>
                             {/* recommendations */}
-                            <span onClick = {
+                            <span onClick = {() =>
                                 this.state.isDisplayingSaved ? this.toggleSaved : {}
                             }>recommendations</span>
                             {/* saved strains */}
-                            <span onClick = {
+                            <span onClick = {() =>
                                 this.state.isDisplayingSaved ? {} : this.toggleSaved
                             }>saved strains</span>
                         </S.Links>
@@ -385,7 +384,7 @@ class Dashboard extends Component {
                                 <h2>{this.props.iterator}: {this.props.dispStrain.name.toUpperCase()}</h2>
                                 <h4>{this.props.dispStrain.type.toUpperCase()}</h4>
                             </div>
-                            <body>{this.props.dispStrain.description}</body>
+                            <div>{this.props.dispStrain.description}</div>
                         </S.Body>
                         
                         {this.state.isDisplayingSaved

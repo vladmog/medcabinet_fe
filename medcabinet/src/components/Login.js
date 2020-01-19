@@ -92,6 +92,8 @@ class Login extends React.Component {
         name: ''
       },
       isSigningUp: false,
+      message: "",
+      isDisplayingMessage: false
     }
   
     login = e => {
@@ -100,8 +102,15 @@ class Login extends React.Component {
       e.preventDefault();
       // localStorage.setItem("token", "abc")
       this.props.login({ email, password })
-        .then(() => {
-          this.props.history.push('/dashboard');
+        .then((res) => {
+          if (res === "success"){
+            this.props.history.push('/dashboard')
+          } else {
+            this.setState({
+              message: "Invalid login",
+              isDisplayingMessage: true
+            })
+          }
         })
         .catch((err) => {
         })
@@ -146,6 +155,10 @@ class Login extends React.Component {
               {/* <h1>{message}</h1> */}
               <S.Form onSubmit={this.login}>
                   <S.H1>MED CABINET</S.H1>
+                  {this.state.isDisplayingMessage
+                    ? (<span>{this.state.message}</span>)
+                    : (<div></div>)
+                  }
                   <S.Label>EMAIL</S.Label>
                   <S.Input
                       type="text"
