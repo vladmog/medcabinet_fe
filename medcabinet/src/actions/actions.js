@@ -108,7 +108,7 @@ export const login = creds => dispatch => {
       });
   };
 
-  export const deleteReview = (strain_id, user_id) => dispatch => {
+  export const deleteStrain = (strain_id, user_id) => dispatch => {
     dispatch({
       type: DELETEREVIEW_START
     });

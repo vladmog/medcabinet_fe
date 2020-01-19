@@ -1,7 +1,7 @@
 import React, { Component } from 'react';
 import {connect} from "react-redux";
 import styled from 'styled-components';
-import {updateUser, changeDispStrain, saveStrain, modalToggle} from '../../actions/actions';
+import {updateUser, changeDispStrain, saveStrain, modalToggle, deleteStrain} from '../../actions/actions';
 
 import StrainButton from "./StrainButton";
 import SaveModal from "./SaveModal";
@@ -270,17 +270,18 @@ class Dashboard extends Component {
         })
     }
 
+    deleteStrain = () => {
+        this.props.deleteStrain(this.props.dispStrain.id, this.props.user.id)
+        this.changeDispStrain(this.props.savedStrains[0], 0)
+    }
     
     
 
 
 
     render(){
-        // console.log(this.state.dispStrain.name)
-        console.log(this.state.isDisplayingSaved)
 
         let iterator = 0;
-        let arrayOfSix = [1, 2, 3, 4, 5, 6]
 
         return (
             <S.Container filter = {this.state.filter}>
@@ -289,6 +290,7 @@ class Dashboard extends Component {
                     <S.Left>
                         {this.state.isDisplayingSaved
                         ?(
+                            // S A V E D   S T R A I N S   V I E W 
                             <div>
                                 <S.SavedHeader>
                                     <h3>Your saved strains</h3>
@@ -304,21 +306,9 @@ class Dashboard extends Component {
                                 </S.Grid>
 
                             </div>
-                            // <S.SavedContainer>
-                            //     <h3>Your saved strains</h3>
-                            //     <S.Grid>
-                            //         {this.props.savedStrains.map((savedStrain, i) => {
-                            //                 iterator++
-                            //                 return(
-                            //                     <StrainButton onClick = {() => this.changeDispStrain(savedStrain, i)} iterator = {iterator} recommendation = {savedStrain}/>
-                            //                 )
-                            //             })
-                            //         }
-                            //     </S.Grid>
-
-                            // </S.SavedContainer>
                         )
                         :(
+                            // R E C O M M E N D A T I O N S   V I E W 
                             <div>
                                 <S.Selector>
                                     {/* header */}
@@ -386,6 +376,7 @@ class Dashboard extends Component {
                     </S.Left>
 
                     <S.Right>
+                        {/* D I S P L A Y */}
                         <S.Image>
                             <img src = {this.props.dispStrain.imgUrl} />
                         </S.Image>
@@ -396,7 +387,11 @@ class Dashboard extends Component {
                             </div>
                             <body>{this.props.dispStrain.description}</body>
                         </S.Body>
-                        <button onClick = {this.saveStrain}>SAVE</button>
+                        
+                        {this.state.isDisplayingSaved
+                            ? <button onClick = {this.deleteStrain}>DELETE</button>
+                            : <button onClick = {this.saveStrain}>SAVE</button>
+                        }
                         
 
                     </S.Right>
@@ -420,18 +415,5 @@ function mapStateToProps(state){
     }
 }     
 
-export default connect(mapStateToProps, {updateUser, changeDispStrain, saveStrain, modalToggle})(Dashboard);
-
-// let iterator = 0;
-        // {   
-        //     this.props.recommendations.map((recommendation) => {
-        //         iterator++
-        //         return(
-        //             <RecButton onClick = {() => this.changeDispStrain(recommendation)}>
-        //                 <div>{iterator}</div>
-        //             </RecButton>
-        //         )
-        //     })
-        // }
-
+export default connect(mapStateToProps, {updateUser, changeDispStrain, saveStrain, modalToggle, deleteStrain})(Dashboard);
 
