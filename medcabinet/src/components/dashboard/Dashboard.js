@@ -285,7 +285,7 @@ class Dashboard extends Component {
 
         return (
             <S.Container filter = {this.state.filter}>
-                <S.Logo>MED CABINET</S.Logo>
+                <S.Logo onClick = {() => this.props.history.push("/")}>MED CABINET</S.Logo>
                 <S.LeftAndRight>
                     <S.Left>
                         {this.state.isDisplayingSaved
