@@ -1,9 +1,7 @@
 import React, { Component } from 'react';
 import {connect} from "react-redux";
-import RecCard from '../RecCard.js';
-import Reviewed from '../Reviewed.js';
 import styled from 'styled-components';
-import {updateUser, changeDispStrain, postReview, modalToggle} from '../../actions/actions';
+import {updateUser, changeDispStrain, saveStrain, modalToggle} from '../../actions/actions';
 
 import StrainButton from "./StrainButton";
 import SaveModal from "./SaveModal";
@@ -240,13 +238,9 @@ class Dashboard extends Component {
         this.props.updateUser(user, desiredEffect)
     }
 
-    saveStrain = e => {
-        e.preventDefault();
-        // this.props.postReview(this.props.dispStrain, this.props.user.id)
 
-    }
-
-    toggleModal = () => {
+    saveStrain = () => {
+        this.props.saveStrain(this.props.dispStrain, this.props.user.id)
         this.setState({
             ...this.state,
             filter: .2
@@ -402,7 +396,7 @@ class Dashboard extends Component {
                             </div>
                             <body>{this.props.dispStrain.description}</body>
                         </S.Body>
-                        <button onClick = {this.toggleModal}>SAVE</button>
+                        <button onClick = {this.saveStrain}>SAVE</button>
                         
 
                     </S.Right>
@@ -426,7 +420,7 @@ function mapStateToProps(state){
     }
 }     
 
-export default connect(mapStateToProps, {updateUser, changeDispStrain, postReview, modalToggle})(Dashboard);
+export default connect(mapStateToProps, {updateUser, changeDispStrain, saveStrain, modalToggle})(Dashboard);
 
 // let iterator = 0;
         // {   

@@ -85,7 +85,7 @@ export const login = creds => dispatch => {
       });
   };
 
-  export const postReview = (review, user_id) => dispatch => {
+  export const saveStrain = (review, user_id) => dispatch => {
     console.log("review obj", {strain_id: review.id})
     console.log("user_id: ", user_id)
     dispatch({ 
